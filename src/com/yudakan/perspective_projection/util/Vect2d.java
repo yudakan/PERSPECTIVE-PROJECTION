@@ -2,8 +2,8 @@ package com.yudakan.perspective_projection.util;
 
 public class Vect2d {
 
-    /* Atributes */
-    public double x, y, z;
+    /* Attributes */
+    public double x, y;
 
     /* Constructors */
     public Vect2d() {}
@@ -25,33 +25,23 @@ public class Vect2d {
 
     /* Methods */
     public Vect2d add(Vect2d v) {
-        x += v.x;
-        y += v.y;
-        return this;
+        return new Vect2d(x + v.x, y + v.y);
     }
 
     public Vect2d add(double num) {
-        x += num;
-        y += num;
-        return this;
+        return new Vect2d(x + num, y + num);
     }
 
     public Vect2d sub(Vect2d v) {
-        x -= v.x;
-        y -= v.y;
-        return this;
+        return new Vect2d(x - v.x, y - v.y);
     }
 
     public Vect2d sub(double num) {
-        x -= num;
-        y -= num;
-        return this;
+        return new Vect2d(x - num, y - num);
     }
 
     public Vect2d scale(double num) {
-        x *= num;
-        y *= num;
-        return this;
+        return new Vect2d(x * num, y * num);
     }
 
     public double dot(Vect2d v) {
@@ -64,11 +54,10 @@ public class Vect2d {
 
     public Vect2d normalize() {
         double len = length();
-        x = x/len;
-        y = y/len;
-        return this;
+        return new Vect2d(x/len, y/len);
     }
 
+    @Override
     public Vect2d clone() {
         return new Vect2d(this);
     }

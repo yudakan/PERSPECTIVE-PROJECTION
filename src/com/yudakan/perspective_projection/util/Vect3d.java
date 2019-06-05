@@ -2,7 +2,7 @@ package com.yudakan.perspective_projection.util;
 
 public class Vect3d {
 
-    /* Atributes */
+    /* Attributes */
     public double x, y, z;
 
     /* Constructors */
@@ -27,48 +27,30 @@ public class Vect3d {
 
     /* Methods */
     public Vect3d add(Vect3d v) {
-        x += v.x;
-        y += v.y;
-        z += v.z;
-        return this;
+        return new Vect3d(x + v.x, y + v.y, z + v.z);
     }
 
     public Vect3d add(double num) {
-        x += num;
-        y += num;
-        z += num;
-        return this;
+        return new Vect3d(x + num, y + num, z + num);
     }
 
     public Vect3d sub(Vect3d v) {
-        x -= v.x;
-        y -= v.y;
-        z -= v.z;
-        return this;
+        return new Vect3d(x - v.x, y - v.y, z - v.z);
     }
 
     public Vect3d sub(double num) {
-        x -= num;
-        y -= num;
-        z -= num;
-        return this;
+        return new Vect3d(x - num, y - num, z - num);
     }
 
     public Vect3d scale(double num) {
-        x *= num;
-        y *= num;
-        z *= num;
-        return this;
+        return new Vect3d(x * num, y * num, z * num);
     }
 
     public Vect3d cross(Vect3d v) {
         double x = this.y*v.z - this.z*v.y;
         double y = this.z*v.x - this.x*v.z;
         double z = this.x*v.y - this.y*v.x;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        return this;
+        return new Vect3d(x, y, z);
     }
 
     public double dot(Vect3d v) {
@@ -81,12 +63,10 @@ public class Vect3d {
 
     public Vect3d normalize() {
         double len = length();
-        x = x/len;
-        y = y/len;
-        z = z/len;
-        return this;
+        return new Vect3d(x/len, y/len, z/len);
     }
 
+    @Override
     public Vect3d clone() {
         return new Vect3d(this);
     }
