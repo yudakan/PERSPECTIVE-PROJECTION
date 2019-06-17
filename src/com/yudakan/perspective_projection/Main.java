@@ -1,9 +1,19 @@
 package com.yudakan.perspective_projection;
 
 //import com.yudakan.perspective_projection.util.Projection;
-
 import com.yudakan.perspective_projection.util.quantum.SquareMatrix;
 import com.yudakan.perspective_projection.util.quantum.Vector;
+import com.yudakan.perspective_projection.util.quantum.VectorInt;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class Main {
 
@@ -24,7 +34,7 @@ public class Main {
 //                x = Double.parseDouble(tks.nextToken());
 //                y = Double.parseDouble(tks.nextToken());
 //                z = Double.parseDouble(tks.nextToken());
-//                vertexes.add(new Vect3d(x, y, z));
+//                vertexes.add(new Vector(x, y, z));
 //            }
 //        }
 //        xtreeIn.close();
@@ -44,11 +54,11 @@ public class Main {
 //                "top: %spx;" +
 //                "\"></div>";
 //        String pixelHTML;
-//        Vect2i pixel;
+//        int[] pixel;
 //        Projection proj = new Projection();
 //
 //        out.write(style, 0, style.length());
-//        for (Vect3d point: vertexes) {
+//        for (Vector point: vertexes) {
 //            pixel = proj.pointToPixel();
 //            pixel = pixel.scale(5);
 //            pixelHTML = String.format(template, pixel.x, pixel.y);
@@ -56,12 +66,5 @@ public class Main {
 //        }
 //        out.flush();
 //        out.close();
-
-        double[] arr = {1.2, 4.5, 8.0, 21.98, 3.2, 17.6};
-        Vector v = new Vector(arr);
-        Vector u = new Vector(4, -2);
-
-        System.out.println(v.concat(3));
-        System.out.println(v.concat(3, 2, 1, 1));
     }
 }

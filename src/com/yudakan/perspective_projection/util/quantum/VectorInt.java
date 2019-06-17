@@ -2,26 +2,26 @@ package com.yudakan.perspective_projection.util.quantum;
 
 import java.util.Random;
 
-public class Vector {
+public class VectorInt {
 
     /* Attributes */
-    private double[] me;
+    private int[] me;
     private int dim;
 
     /* Constructors */
-    public Vector() {
+    public VectorInt() {
         dim = 1;
-        me = new double[dim];
+        me = new int[dim];
     }
 
-    public Vector(int dim, double fill, boolean random) {
+    public VectorInt(int dim, int fill, boolean random) {
         this.dim = dim;
-        me = new double[dim];
+        me = new int[dim];
 
         if (random) {
             Random rand = new Random();
             for (int i=0; i < dim; i++)
-                me[i] = rand.nextDouble()*fill;
+                me[i] = rand.nextInt(fill);
         }
         else {
             for (int i=0; i < dim; i++)
@@ -29,31 +29,31 @@ public class Vector {
         }
     }
 
-    public Vector(double ... elements) {
+    public VectorInt(int ... elements) {
         dim = elements.length;
         me = elements.clone();
     }
 
-    public Vector(Vector ... vArr) {
+    public VectorInt(VectorInt ... vArr) {
         int i, j, k;
         for (i=0; i < vArr.length; i++)
             dim += vArr[i].getDim();
 
-        me = new double[dim];
+        me = new int[dim];
         for (i=0, k=0; i < vArr.length; i++)
             for (j=0; j < vArr[i].getDim(); j++)
                 me[k++] = vArr[i].get(j);
     }
 
     /* Getters & Setters */
-    public double get(int i) {
+    public int get(int i) {
         if (i < dim && i >= 0)
             return me[i];
         else
             throw new IllegalArgumentException("Out of rang");
     }
 
-    public void set(int i, double value) {
+    public void set(int i, int value) {
         if (i < dim && i >= 0)
             me[i] = value;
         else
@@ -65,95 +65,95 @@ public class Vector {
     }
 
     /* Methods */
-    public VectorInt toInt() {
-        int arr[] = new int[dim];
+    public Vector toDouble() {
+        double arr[] = new double[dim];
         for (int i=0; i < dim; i++)
-            arr[i] = (int)me[i];
+            arr[i] = (double)me[i];
 
-        return new VectorInt(arr);
+        return new Vector(arr);
     }
 
-    public Vector concat(Vector v) {
-        return new Vector(this, v);
+    public VectorInt concat(VectorInt v) {
+        return new VectorInt(this, v);
     }
 
-    public Vector concat(double ... nums) {
-        return new Vector(this, new Vector(nums));
+    public VectorInt concat(int ... nums) {
+        return new VectorInt(this, new VectorInt(nums));
     }
 
-    public Vector subVector(int start, int end) { // Start included, end excluded
+    public VectorInt subVectorInt(int start, int end) { // Start included, end excluded
         if (start < end && start < dim && start >= 0 && end <= dim) {
-            double[] arr = new double[end-start];
+            int[] arr = new int[end-start];
             System.arraycopy(this.me, start, arr, 0, end-start);
-            return new Vector(arr);
+            return new VectorInt(arr);
         }
         else
             throw new IllegalArgumentException("Out of rang");
     }
 
-    public Vector add(Vector v) {
+    public VectorInt add(VectorInt v) {
         if (dim != v.dim)
             throw new IllegalArgumentException("Not same dimension");
 
-        Vector u = new Vector(this);
+        VectorInt u = new VectorInt(this);
         for (int i=0; i < dim; i++)
             u.me[i] += v.me[i];
 
         return u;
     }
 
-    public Vector add(double num) {
-        Vector u = new Vector(this);
+    public VectorInt add(int num) {
+        VectorInt u = new VectorInt(this);
         for (int i=0; i < dim; i++)
             u.me[i] += num;
 
         return u;
     }
 
-    public Vector sub(Vector v) {
+    public VectorInt sub(VectorInt v) {
         if (dim != v.dim)
             throw new IllegalArgumentException("Not same dimension");
 
-        Vector u = new Vector(this);
+        VectorInt u = new VectorInt(this);
         for (int i=0; i < dim; i++)
             u.me[i] -= v.me[i];
 
         return u;
     }
 
-    public Vector sub(double num) {
-        Vector u = new Vector(this);
+    public VectorInt sub(int num) {
+        VectorInt u = new VectorInt(this);
         for (int i=0; i < dim; i++)
             u.me[i] -= num;
 
         return u;
     }
 
-    public Vector scale(double num) {
-        Vector u = new Vector(this);
+    public VectorInt scale(int num) {
+        VectorInt u = new VectorInt(this);
         for (int i=0; i < dim; i++)
             u.me[i] *= num;
 
         return u;
     }
 
-    public Vector cross(Vector v) {
+    public VectorInt cross(VectorInt v) {
         if (dim != v.dim)
             throw new IllegalArgumentException("Not same dimension");
         else if (dim != 3)
             throw new IllegalArgumentException("Cross product just lives in three-dimensional space, not "+dim+"d space");
 
-        double x = me[1]*v.me[2] - me[2]*v.me[1];
-        double y = me[2]*v.me[0] - me[0]*v.me[2];
-        double z = me[0]*v.me[1] - me[1]*v.me[0];
-        return new Vector(x, y, z);
+        int x = me[1]*v.me[2] - me[2]*v.me[1];
+        int y = me[2]*v.me[0] - me[0]*v.me[2];
+        int z = me[0]*v.me[1] - me[1]*v.me[0];
+        return new VectorInt(x, y, z);
     }
 
-    public double dot(Vector v) {
+    public int dot(VectorInt v) {
         if (dim != v.dim)
             throw new IllegalArgumentException("Not same dimension");
 
-        double sum = 0;
+        int sum = 0;
         for (int i=0; i < dim; i++)
             sum += me[i] * v.me[i];
 
@@ -161,7 +161,7 @@ public class Vector {
     }
 
     public double length() {
-        double sum = 0;
+        int sum = 0;
         for (int i=0; i < dim; i++)
             sum += me[i] * me[i];
 
@@ -170,23 +170,23 @@ public class Vector {
 
     public Vector normalize() {
         double len = length();
-        Vector normalized = new Vector(this);
+        double[] arr = new double[dim];
         for (int i=0; i < dim; i++)
-            normalized.me[i] /= len;
+            arr[i] = me[i] / len;
 
-        return normalized;
+        return new Vector(arr);
     }
 
     @Override
-    public Vector clone() {
-        return new Vector(this);
+    public VectorInt clone() {
+        return new VectorInt(this);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i=0; i < dim; i++)
-                sb.append(me[i]+" ");
+            sb.append(me[i]+" ");
 
         return sb.toString();
     }
