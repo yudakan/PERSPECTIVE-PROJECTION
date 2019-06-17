@@ -12,7 +12,7 @@ public class Vector {
         me = new double[dim];
     }
 
-    public Vector(int dim, int fill) {
+    public Vector(int dim, double fill) {
         this.dim = dim;
         me = new double[dim];
         for (int i=0; i < dim; i++)
@@ -24,15 +24,58 @@ public class Vector {
         me = elements.clone();
     }
 
-    public Vector(Vector v) {
-        dim = v.me.length;
-        me = v.me.clone();
+    public Vector(Vector ... vArr) {
+        int i, j, k;
+        for (i=0; i < vArr.length; i++)
+            dim += vArr[i].getDim();
+
+        me = new double[dim];
+        for (i=0, k=0; i < vArr.length; i++)
+            for (j=0; j < vArr[i].getDim(); j++)
+                me[k++] = vArr[i].get(j);
+    }
+
+    /* Getters & Setters */
+    public double get(int i) {
+        if (i < dim && i >= 0)
+            return me[i];
+        else
+            throw new IllegalArgumentException("Out of rang");
+    }
+
+    public void set(int i, double value) {
+        if (i < dim && i >= 0)
+            me[i] = value;
+        else
+            throw new IllegalArgumentException("Out of rang");
+    }
+
+    public int getDim() {
+        return dim;
     }
 
     /* Methods */
+    public Vector concat(Vector v) {
+        return new Vector(this, v);
+    }
+
+    public Vector concat(double ... nums) {
+        return new Vector(this, new Vector(nums));
+    }
+
+    public Vector subVector(int start, int end) { // Start included, end excluded
+        if (start < end && start < dim && start >= 0 && end <= dim) {
+            double[] arr = new double[end-start];
+            System.arraycopy(this.me, start, arr, 0, end-start);
+            return new Vector(arr);
+        }
+        else
+            throw new IllegalArgumentException("Out of rang");
+    }
+
     public Vector add(Vector v) {
         if (dim != v.dim)
-            throw new IllegalArgumentException("Not same dimule");
+            throw new IllegalArgumentException("Not same dimension");
 
         Vector u = new Vector(this);
         for (int i=0; i < dim; i++)
@@ -51,7 +94,7 @@ public class Vector {
 
     public Vector sub(Vector v) {
         if (dim != v.dim)
-            throw new IllegalArgumentException("Not same dimule");
+            throw new IllegalArgumentException("Not same dimension");
 
         Vector u = new Vector(this);
         for (int i=0; i < dim; i++)
@@ -78,7 +121,7 @@ public class Vector {
 
     public Vector cross(Vector v) {
         if (dim != v.dim)
-            throw new IllegalArgumentException("Not same dimule");
+            throw new IllegalArgumentException("Not same dimension");
         else if (dim != 3)
             throw new IllegalArgumentException("Cross product just lives in three-dimensional space, not "+dim+"d space");
 
@@ -90,7 +133,7 @@ public class Vector {
 
     public double dot(Vector v) {
         if (dim != v.dim)
-            throw new IllegalArgumentException("Not same dimule");
+            throw new IllegalArgumentException("Not same dimension");
 
         double sum = 0;
         for (int i=0; i < dim; i++)

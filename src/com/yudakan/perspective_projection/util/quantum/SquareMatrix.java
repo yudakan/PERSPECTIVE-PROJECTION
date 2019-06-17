@@ -8,12 +8,14 @@ public class SquareMatrix {
 
     /* Constructors */
     public SquareMatrix() {
-        order = 1;
+        order = 2;
         me = new double[order][order];
     }
 
     public SquareMatrix(int order, double fill) {
-        this.order = order;
+        if ((this.order = order) < 2)
+            throw new IllegalArgumentException("Not allowed order less than 2");
+
         me = new double[order][order];
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < order; j++)
@@ -54,6 +56,20 @@ public class SquareMatrix {
         me = new double[order][order];
         for (int i=0; i < order; i++)
             me[i] = mx.me[i].clone();
+    }
+
+    public SquareMatrix(Vector ... vArr) {
+        try {
+            order = vArr.length;
+            me = new double[order][order];
+
+            for (int i=0, j=0; i < order; i++)
+                for (j = 0; j < order; j++)
+                    me[i][j] = vArr[i].get(j);
+        }
+        catch (ArrayIndexOutOfBoundsException|IllegalArgumentException e) {
+            throw new IllegalArgumentException("Can not build quadratic matrix");
+        }
     }
 
     /* Getters & Setters */
@@ -158,13 +174,6 @@ public class SquareMatrix {
         return transpose;
     }
 
-    public static double adj(SquareMatrix mx, int i, int j) {
-        if (i >= mx.order || j >= mx.order || i < 0  || j < 0)
-            throw new IllegalArgumentException("Out of rang");
-
-        return Math.pow(-1, i+j) * det(minor(mx, i, j));
-    }
-
     public static SquareMatrix minor(SquareMatrix mx, int i, int j) {
         if (i >= mx.order || j >= mx.order || i < 0  || j < 0)
             throw new IllegalArgumentException("Out of rang");
@@ -178,6 +187,13 @@ public class SquareMatrix {
                     minor.me[ii < i ? ii : ii - 1][jj < j ? jj : jj - 1] = mx.me[ii][jj];
 
         return minor;
+    }
+
+    public static double adj(SquareMatrix mx, int i, int j) {
+        if (i >= mx.order || j >= mx.order || i < 0  || j < 0)
+            throw new IllegalArgumentException("Out of rang");
+
+        return Math.pow(-1, i+j) * det(minor(mx, i, j));
     }
 
     public static double det(SquareMatrix mx) {

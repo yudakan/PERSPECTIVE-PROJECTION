@@ -2,12 +2,15 @@ package com.yudakan.perspective_projection;
 
 //import com.yudakan.perspective_projection.util.Projection;
 
+import com.yudakan.perspective_projection.util.quantum.SquareMatrix;
+import com.yudakan.perspective_projection.util.quantum.Vector;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
 //        // Load model
-//        ArrayList<Vect3d> vertexes = new ArrayList<>();
+//        ArrayList<Vector> vertexes = new ArrayList<>();
 //        File xtree = new File("./xtree.obj");
 //        BufferedReader xtreeIn = new BufferedReader(new InputStreamReader(new FileInputStream(xtree)));
 //
@@ -53,5 +56,12 @@ public class Main {
 //        }
 //        out.flush();
 //        out.close();
+
+        double[] arr = {1.2, 4.5, 8.0, 21.98, 3.2, 17.6};
+        Vector v = new Vector(arr);
+        Vector u = new Vector(4, -2);
+
+        System.out.println(v.concat(3));
+        System.out.println(v.concat(3, 2, 1, 1));
     }
 }
