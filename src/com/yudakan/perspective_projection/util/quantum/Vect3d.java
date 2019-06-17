@@ -1,4 +1,4 @@
-package com.yudakan.perspective_projection.util;
+package com.yudakan.perspective_projection.util.quantum;
 
 public class Vect3d {
 

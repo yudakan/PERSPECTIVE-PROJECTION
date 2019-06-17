@@ -1,4 +1,4 @@
-package com.yudakan.perspective_projection.util;
+package com.yudakan.perspective_projection.util.quantum;
 
 public class Vect2d {
 
@@ -14,6 +14,11 @@ public class Vect2d {
     }
 
     public Vect2d(Vect2d v) {
+        this.x = v.x;
+        this.y = v.y;
+    }
+
+    public Vect2d(Vect2i v) {
         this.x = v.x;
         this.y = v.y;
     }
