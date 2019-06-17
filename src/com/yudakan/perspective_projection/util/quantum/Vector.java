@@ -160,6 +160,18 @@ public class Vector {
         return sum;
     }
 
+    public Vector multiply(SquareMatrix mx) {
+        if (dim != mx.getOrder())
+            throw new IllegalArgumentException("Not same order");
+
+        double[] arr = new double[dim];
+        for (int i=0, j=0; i < dim; i++)
+            for (j=0; j < dim; j++)
+                arr[i] += me[j] * mx.get(j, i);
+
+        return new Vector(arr);
+    }
+
     public double length() {
         double sum = 0;
         for (int i=0; i < dim; i++)

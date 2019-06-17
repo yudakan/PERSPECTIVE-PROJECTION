@@ -1,4 +1,6 @@
-package com.yudakan.perspective_projection.util.quantum;;
+package com.yudakan.perspective_projection.util.quantum;
+
+import java.util.Random;
 
 public class SquareMatrix {
 
@@ -12,14 +14,22 @@ public class SquareMatrix {
         me = new double[order][order];
     }
 
-    public SquareMatrix(int order, double fill) {
+    public SquareMatrix(int order, double fill, boolean random) {
         if ((this.order = order) < 2)
             throw new IllegalArgumentException("Not allowed order less than 2");
 
         me = new double[order][order];
-        for (int i=0, j=0; i < order; i++)
-            for (j=0; j < order; j++)
-                me[i][j] = fill;
+        if (random) {
+            Random rand = new Random();
+            for (int i=0, j=0; i < order; i++)
+                for (j=0; j < order; j++)
+                    me[i][j] = rand.nextDouble()*fill;
+        }
+        else {
+            for (int i=0, j=0; i < order; i++)
+                for (j=0; j < order; j++)
+                    me[i][j] = fill;
+        }
     }
 
     public SquareMatrix(double ... elements) {
@@ -27,9 +37,9 @@ public class SquareMatrix {
             throw new IllegalArgumentException("Not quadratic matrix");
 
         me = new double[order][order];
-        for (int i=0, j=0; i < order; i++)
+        for (int i=0, j=0, k=0; i < order; i++)
             for (j=0; j < order; j++)
-                me[i][j] = elements[i*order+j];
+                me[i][j] = elements[k++];
     }
 
     public SquareMatrix(double[][] arr) {
@@ -155,7 +165,7 @@ public class SquareMatrix {
         if (mx.order != order)
             throw new IllegalArgumentException("Not same order");
 
-        SquareMatrix mxNew = new SquareMatrix(order, 0);
+        SquareMatrix mxNew = new SquareMatrix(order, 0, false);
         for (int i=0, j=0, k=0; i < order; i++)
             for (j=0; j < order; j++)
 
@@ -165,8 +175,20 @@ public class SquareMatrix {
         return mxNew;
     }
 
+    public Vector multiply(Vector v) {
+        if (v.getDim() != order)
+            throw new IllegalArgumentException("Not same order");
+
+        double[] arr = new double[order];
+        for (int i=0, j=0; i < order; i++)
+            for (j=0; j < order; j++)
+                arr[i] += me[i][j] * v.get(j);
+
+        return new Vector(arr);
+    }
+
     public SquareMatrix transpose() {
-        SquareMatrix transpose = new SquareMatrix(order, 0);
+        SquareMatrix transpose = new SquareMatrix(order, 0, false);
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < order; j++)
                 transpose.me[j][i] = me[i][j];
@@ -178,7 +200,7 @@ public class SquareMatrix {
         if (i >= mx.order || j >= mx.order || i < 0  || j < 0)
             throw new IllegalArgumentException("Out of rang");
 
-        SquareMatrix minor = new SquareMatrix(mx.order-1, 0);
+        SquareMatrix minor = new SquareMatrix(mx.order-1, 0, false);
         int ii, jj;
 
         for (ii=0; ii < mx.order; ii++)
@@ -208,7 +230,7 @@ public class SquareMatrix {
     }
 
     public SquareMatrix cof() {
-        SquareMatrix cofactors = new SquareMatrix(order, 0);
+        SquareMatrix cofactors = new SquareMatrix(order, 0, false);
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < order; j++)
                 cofactors.me[i][j] = adj(this, i, j);
