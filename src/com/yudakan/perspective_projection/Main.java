@@ -1,13 +1,6 @@
 package com.yudakan.perspective_projection;
 
 //import com.yudakan.perspective_projection.util.Projection;
-import com.yudakan.perspective_projection.util.quantum.SquareMatrixDouble;
-import com.yudakan.perspective_projection.util.quantum.Vect2i;
-import com.yudakan.perspective_projection.util.quantum.Vect3d;
-
-import java.io.*;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 public class Main {
 
@@ -60,24 +53,5 @@ public class Main {
 //        }
 //        out.flush();
 //        out.close();
-
-        double[][] arr = {
-                {22, 23, -4, 1.0/2.0},
-                {7.0/2.0, -3, 1, -65},
-                {51, 9, 0, 65.0/37.0},
-                {-27, -67, 821, -782}
-        };
-        SquareMatrixDouble mxA = new SquareMatrixDouble(arr);
-        SquareMatrixDouble mxB = new SquareMatrixDouble(2, 3.1, 9, 23, 0, 43.567, 0.23, 78, 97, 34.8, 12, 101, 3, 987, 1, 0);
-        SquareMatrixDouble idt = new SquareMatrixDouble(3, 7);
-
-        SquareMatrixDouble mxC = mxA.inverse();
-        SquareMatrixDouble mxD = mxC.multiply(mxA);
-
-        System.out.println(mxA+"\n");
-        System.out.println(mxB+"\n");
-        System.out.println(mxC+"\n");
-        System.out.println(idt+"\n");
-        System.out.println(mxD+"\n");
     }
 }

@@ -1,18 +1,18 @@
 package com.yudakan.perspective_projection.util.quantum;;
 
-public class SquareMatrixDouble {
+public class SquareMatrix {
 
     /* Attributes */
     private double[][] me;
     private int order;
 
     /* Constructors */
-    public SquareMatrixDouble() {
+    public SquareMatrix() {
         order = 1;
         me = new double[order][order];
     }
 
-    public SquareMatrixDouble(int order, double fill) {
+    public SquareMatrix(int order, double fill) {
         this.order = order;
         me = new double[order][order];
         for (int i=0, j=0; i < order; i++)
@@ -20,7 +20,7 @@ public class SquareMatrixDouble {
                 me[i][j] = fill;
     }
 
-    public SquareMatrixDouble(double ... elements) {
+    public SquareMatrix(double ... elements) {
         if ((order = quadratic(elements.length)) == -1)
             throw new IllegalArgumentException("Not quadratic matrix");
 
@@ -30,7 +30,7 @@ public class SquareMatrixDouble {
                 me[i][j] = elements[i*order+j];
     }
 
-    public SquareMatrixDouble(double[][] arr) {
+    public SquareMatrix(double[][] arr) {
         int i, j;
         boolean quadratic = true;
         for (i=0; i < arr.length; i++) {
@@ -49,7 +49,7 @@ public class SquareMatrixDouble {
                 me[i][j] = arr[i][j];
     }
 
-    public SquareMatrixDouble(SquareMatrixDouble mx) {
+    public SquareMatrix(SquareMatrix mx) {
         order = mx.order;
         me = new double[order][order];
         for (int i=0; i < order; i++)
@@ -58,14 +58,14 @@ public class SquareMatrixDouble {
 
     /* Getters & Setters */
     public double get(int i, int j) {
-        if (i < order && j < order)
+        if (i < order && j < order && i >= 0  && j >= 0)
             return me[i][j];
         else
             throw new IllegalArgumentException("Out of rang");
     }
 
     public void set(int i, int j, double value) {
-        if (i < order && j < order)
+        if (i < order && j < order && i >= 0  && j >= 0)
             me[i][j] = value;
         else
             throw new IllegalArgumentException("Out of rang");
@@ -84,11 +84,11 @@ public class SquareMatrixDouble {
             return -1;
     }
 
-    public SquareMatrixDouble add(SquareMatrixDouble mx) {
+    public SquareMatrix add(SquareMatrix mx) {
         if (mx.order != order)
             throw new IllegalArgumentException("Not same order");
 
-        SquareMatrixDouble mxNew = new SquareMatrixDouble(this);
+        SquareMatrix mxNew = new SquareMatrix(this);
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < order; j++)
                 mxNew.me[i][j] += mx.me[i][j];
@@ -96,8 +96,8 @@ public class SquareMatrixDouble {
         return mxNew;
     }
 
-    public SquareMatrixDouble add(double num) {
-        SquareMatrixDouble mxNew = new SquareMatrixDouble(this);
+    public SquareMatrix add(double num) {
+        SquareMatrix mxNew = new SquareMatrix(this);
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < me[i].length; j++)
                 mxNew.me[i][j] += num;
@@ -105,11 +105,11 @@ public class SquareMatrixDouble {
         return mxNew;
     }
 
-    public SquareMatrixDouble sub(SquareMatrixDouble mx) {
+    public SquareMatrix sub(SquareMatrix mx) {
         if (mx.order != order)
             throw new IllegalArgumentException("Not same order");
 
-        SquareMatrixDouble mxNew = new SquareMatrixDouble(this);
+        SquareMatrix mxNew = new SquareMatrix(this);
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < me[i].length; j++)
                 mxNew.me[i][j] -= mx.me[i][j];
@@ -117,8 +117,8 @@ public class SquareMatrixDouble {
         return mxNew;
     }
 
-    public SquareMatrixDouble sub(double num) {
-        SquareMatrixDouble mxNew = new SquareMatrixDouble(this);
+    public SquareMatrix sub(double num) {
+        SquareMatrix mxNew = new SquareMatrix(this);
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < me[i].length; j++)
                 mxNew.me[i][j] -= num;
@@ -126,8 +126,8 @@ public class SquareMatrixDouble {
         return mxNew;
     }
 
-    public SquareMatrixDouble scale(double num) {
-        SquareMatrixDouble mxNew = new SquareMatrixDouble(this);
+    public SquareMatrix scale(double num) {
+        SquareMatrix mxNew = new SquareMatrix(this);
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < order; j++)
                 mxNew.me[i][j] *= num;
@@ -135,11 +135,11 @@ public class SquareMatrixDouble {
         return mxNew;
     }
 
-    public SquareMatrixDouble multiply(SquareMatrixDouble mx) {
+    public SquareMatrix multiply(SquareMatrix mx) {
         if (mx.order != order)
             throw new IllegalArgumentException("Not same order");
 
-        SquareMatrixDouble mxNew = new SquareMatrixDouble(order, 0);
+        SquareMatrix mxNew = new SquareMatrix(order, 0);
         for (int i=0, j=0, k=0; i < order; i++)
             for (j=0; j < order; j++)
 
@@ -149,8 +149,8 @@ public class SquareMatrixDouble {
         return mxNew;
     }
 
-    public SquareMatrixDouble transpose() {
-        SquareMatrixDouble transpose = new SquareMatrixDouble(order, 0);
+    public SquareMatrix transpose() {
+        SquareMatrix transpose = new SquareMatrix(order, 0);
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < order; j++)
                 transpose.me[j][i] = me[i][j];
@@ -158,18 +158,18 @@ public class SquareMatrixDouble {
         return transpose;
     }
 
-    public static double adj(SquareMatrixDouble mx, int i, int j) {
-        if (i >= mx.order || j >= mx.order)
+    public static double adj(SquareMatrix mx, int i, int j) {
+        if (i >= mx.order || j >= mx.order || i < 0  || j < 0)
             throw new IllegalArgumentException("Out of rang");
 
         return Math.pow(-1, i+j) * det(minor(mx, i, j));
     }
 
-    public static SquareMatrixDouble minor(SquareMatrixDouble mx, int i, int j) {
-        if (i >= mx.order || j >= mx.order)
+    public static SquareMatrix minor(SquareMatrix mx, int i, int j) {
+        if (i >= mx.order || j >= mx.order || i < 0  || j < 0)
             throw new IllegalArgumentException("Out of rang");
 
-        SquareMatrixDouble minor = new SquareMatrixDouble(mx.order-1, 0);
+        SquareMatrix minor = new SquareMatrix(mx.order-1, 0);
         int ii, jj;
 
         for (ii=0; ii < mx.order; ii++)
@@ -180,7 +180,7 @@ public class SquareMatrixDouble {
         return minor;
     }
 
-    public static double det(SquareMatrixDouble mx) {
+    public static double det(SquareMatrix mx) {
         if (mx.order == 2)
             return mx.me[0][0] * mx.me[1][1] - mx.me[0][1] * mx.me[1][0];
 
@@ -191,8 +191,8 @@ public class SquareMatrixDouble {
         return det;
     }
 
-    public SquareMatrixDouble cof() {
-        SquareMatrixDouble cofactors = new SquareMatrixDouble(order, 0);
+    public SquareMatrix cof() {
+        SquareMatrix cofactors = new SquareMatrix(order, 0);
         for (int i=0, j=0; i < order; i++)
             for (j=0; j < order; j++)
                 cofactors.me[i][j] = adj(this, i, j);
@@ -200,30 +200,29 @@ public class SquareMatrixDouble {
         return cofactors;
     }
 
-    public SquareMatrixDouble adjMx() {
+    public SquareMatrix adjMx() {
         return this.cof().transpose();
     }
 
-    public SquareMatrixDouble inverse() {
+    public SquareMatrix inverse() {
         return this.adjMx().scale(1.0 / det(this));
     }
 
     @Override
-    public SquareMatrixDouble clone() {
-        return new SquareMatrixDouble(this);
+    public SquareMatrix clone() {
+        return new SquareMatrix(this);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i=0, j=0; i < order; i++) {
-            for (j = 0; j < order; j++) {
-                sb.append(me[i][j]);
-                sb.append(", ");
-            }
+            for (j = 0; j < order; j++)
+                sb.append(me[i][j]+" ");
+
             sb.append('\n');
         }
 
-        return sb.delete(sb.length()-3, sb.length()).toString();
+        return sb.toString();
     }
 }
