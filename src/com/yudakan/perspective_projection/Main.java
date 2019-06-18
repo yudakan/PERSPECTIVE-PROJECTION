@@ -49,8 +49,8 @@ public class Main {
         File rendered = new File("./rendered.html");
         BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(rendered)));
 
-        int width = 512;
-        int height = 512;
+        int width = 500;
+        int height = 750;
         String style = "<body style=\"background-color: #000;\"><svg height=\""+height+"\" width=\""+width+"\">";
         String template = "<line x1=\"%s\" y1=\"%s\" x2=\"%s\" y2=\"%s\"" +
                 "style=\"stroke:rgb(255,255,255);stroke-width:2\" />";
@@ -59,6 +59,8 @@ public class Main {
         Projection proj = new Projection.Builder()
                 .setRasterWidth(width)
                 .setRasterHeight(height)
+                .setCanvasWidth(2)
+                .setCanvasHeight(3)
                 .build();
 
         out.write(style, 0, style.length());
