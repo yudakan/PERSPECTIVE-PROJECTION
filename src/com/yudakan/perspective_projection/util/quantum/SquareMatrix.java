@@ -104,7 +104,7 @@ public class SquareMatrix {
     /* Methods */
     public static int quadratic(int n) {
         double sqrt = Math.sqrt(n);
-        if (Math.floor(sqrt) == Math.ceil(sqrt))
+        if (sqrt == Math.floor(sqrt))
             return (int)sqrt;
         else
             return -1;
