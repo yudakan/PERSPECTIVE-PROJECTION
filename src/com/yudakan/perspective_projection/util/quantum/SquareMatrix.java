@@ -219,6 +219,8 @@ public class SquareMatrix {
     }
 
     public static double det(SquareMatrix mx) {
+        if (mx.order == 1)
+            return mx.me[0][0];
         if (mx.order == 2)
             return mx.me[0][0] * mx.me[1][1] - mx.me[0][1] * mx.me[1][0];
 
@@ -243,7 +245,11 @@ public class SquareMatrix {
     }
 
     public SquareMatrix inverse() {
-        return this.adjMx().scale(1.0 / det(this));
+        double det = det(this);
+        if (det == 0)
+                throw new IllegalArgumentException("No inversible");
+        
+        return this.adjMx().scale(1.0 / det);
     }
 
     @Override
